@@ -30,7 +30,7 @@ object Libraries {
     }
 
     object Exoplayer {
-        private const val version = "2.18.4"
+        private const val version = "2.18.1"
 
         const val exoplayer = "com.google.android.exoplayer:exoplayer:$version"
         const val exoplayercore = "com.google.android.exoplayer:exoplayer-core:$version"
