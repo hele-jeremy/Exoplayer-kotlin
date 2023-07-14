@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.exoplayer2.ExoPlayer
@@ -64,13 +65,16 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SourceLockedOrientationActivity")
     private fun setFullScreenListener() {
         // Creating a new Player View and place it inside a Full Screen Dialog.
+//        val fullScreenPlayerView :StyledPlayerView = (LayoutInflater.from(this).inflate(R.layout.full_screen_player_view,null,false) as StyledPlayerView).apply {
+//            findViewById<ImageButton>(R.id.exo_fullscreen).setBackgroundResource(R.drawable.exo_ic_fullscreen_exit)
+//        }
+
         val fullScreenPlayerView = StyledPlayerView(this)
         val dialog = object : Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen){
             @Deprecated("Deprecated in Java")
             override fun onBackPressed() {
                 // User pressed back button. Exit Full Screen Mode.
-               /* playerView?.findViewById<ImageButton>(com.google.android.exoplayer2.ui.R.id.exo_fullscreen)
-                    ?.setImageResource(R.drawable.ic_fullscreen_expand)*/
+                playerView?.findViewById<ImageButton>(com.google.android.exoplayer2.ui.R.id.exo_fullscreen)?.setImageResource(R.drawable.exo_ic_fullscreen_enter)
                 player?.let { StyledPlayerView.switchTargetView(it, fullScreenPlayerView, playerView) }
                 currentPlayer = playerView
                 this@MainActivity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -90,8 +94,7 @@ class MainActivity : AppCompatActivity() {
             // If full Screen Dialog is not visible, make player full screen.
             if(!dialog.isShowing){
                 dialog.show()
-                /*fullScreenPlayerView.findViewById<ImageButton>(com.google.android.exoplayer2.ui.R.id.exo_fullscreen)
-                    .setImageResource(R.drawable.ic_fullscreen_shrink)*/
+                fullScreenPlayerView.findViewById<ImageButton>(com.google.android.exoplayer2.ui.R.id.exo_fullscreen).setImageResource(R.drawable.exo_ic_fullscreen_exit)
                 player?.let { StyledPlayerView.switchTargetView(it, playerView, fullScreenPlayerView) }
                 currentPlayer = fullScreenPlayerView
                 this@MainActivity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
@@ -99,8 +102,7 @@ class MainActivity : AppCompatActivity() {
         }
         fullScreenPlayerView.setFullscreenButtonClickListener {
             // Exit Full Screen.
-            /*playerView?.findViewById<ImageButton>(com.google.android.exoplayer2.ui.R.id.exo_fullscreen)
-                ?.setImageResource(R.drawable.ic_fullscreen_expand)*/
+            playerView?.findViewById<ImageButton>(com.google.android.exoplayer2.ui.R.id.exo_fullscreen)?.setImageResource(R.drawable.exo_ic_fullscreen_enter)
             player?.let { StyledPlayerView.switchTargetView(it, fullScreenPlayerView, playerView) }
             currentPlayer = playerView
             this@MainActivity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -129,7 +131,7 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT <= 23) {
             currentPlayer?.player = null
             player!!.release()
-            player = null
+             player = null
         }
     }
 
